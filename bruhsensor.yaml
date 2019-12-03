@@ -1,0 +1,57 @@
+esphome:
+  name: bruhsensoroffice
+  platform: ESP8266
+  board: d1_mini_lite
+
+wifi:
+  ssid: !secret wifissid
+  password: !secret wifipassword
+
+sensor:
+  - platform: dht
+    pin: D3
+    temperature:
+      name: "Multisensor Temperature"
+    humidity:
+      name: "Multisensor Humidity"
+    update_interval: 60s
+    model: AM2302
+#   - platform: adc
+#     pin: A0
+#     name: "Multisensor Brightness"
+#     unit_of_measurement: lux
+#     filters:
+#       - lambda: |-
+#           return (x / 10000.0) * 2000000.0;
+
+binary_sensor:
+  - platform: gpio
+    pin: D6
+    name: "Multisensor Motion"
+    device_class: motion
+
+# output:
+#   - platform: esp8266_pwm
+#     pin: D5
+#     id: redgpio
+#   - platform: esp8266_pwm
+#     pin: D6
+#     id: greengpio
+#   - platform: esp8266_pwm
+#     pin: D7
+#     id: bluegpio
+
+# light:
+#   - platform: rgb
+#     name: "Multisensor Light"
+#     red: redgpio
+#     green: greengpio
+#     blue: bluegpio
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
