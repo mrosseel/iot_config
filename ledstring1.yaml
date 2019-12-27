@@ -1,0 +1,138 @@
+esphome:
+  name: ledstring_mike
+  platform: ESP8266
+  board: nodemcuv2
+  on_boot:
+    priority: -10
+    then:
+      - light.turn_on:
+          id: ledstring_kleuren
+          brightness: 10%
+          red: 1.0
+          green: 0.5
+          blue: 0.1
+      - delay: 1s
+      - light.turn_on:
+          id: ledstring_kleuren
+          brightness: 100%
+          effect: "rainbow"
+wifi:
+  ssid: !secret wifissid
+  password: !secret wifipassword
+
+logger:
+
+api:
+  password: !secret updatepassword
+ota:
+  password: !secret updatepassword
+light:
+- id: ledstring_kleuren
+  name: ledstring_mike_kleuren
+  type: RGB
+  platform: neopixelbus
+  variant: WS2812
+  method: ESP8266_UART1
+  pin: GPIO2 #d2
+  num_leds: 108
+  effects:
+     # Use default parameters:
+    - random:
+    # Customize parameters
+    - random:
+        name: "My Slow Random Effect"
+        transition_length: 30s
+        update_interval: 30s
+    - random:
+        name: "My Fast Random Effect"
+        transition_length: 4s
+        update_interval: 5s
+    - addressable_flicker:
+    - addressable_flicker:
+        name: Flicker Effect With Custom Values
+        update_interval: 16ms
+        intensity: 55%
+    - addressable_flicker:
+          name: fireplace
+          update_interval: 50ms
+          intensity: 5%
+    - addressable_twinkle:
+    - addressable_twinkle:
+        name: Twinkle Effect With Custom Values
+        twinkle_probability: 55%
+        progress_interval: 4ms
+    - addressable_random_twinkle:
+    - addressable_random_twinkle:
+        name: Random Twinkle Effect With Custom Values
+        twinkle_probability: 55%
+        progress_interval: 32ms
+    - addressable_fireworks:
+    - addressable_fireworks:
+        name: Fireworks Effect With Custom Values
+        update_interval: 32ms
+        spark_probability: 10%
+        use_random_color: false
+        fade_out_rate: 120
+    - addressable_rainbow:
+    - addressable_rainbow:
+        name: Rainbow Effect With Custom Values
+        speed: 10
+        width: 50
+    - addressable_color_wipe:
+    - addressable_color_wipe:
+        name: Color Wipe Effect With Custom Values
+        colors:
+          - red: 100%
+            green: 100%
+            blue: 100%
+            num_leds: 1
+          - red: 0%
+            green: 0%
+            blue: 0%
+            num_leds: 1
+        add_led_interval: 100ms
+        reverse: False
+    - addressable_lambda:
+        name: "Christmas RedGreen"
+        lambda: |-
+
+            for (int i = 1; i <  it.size(); i+=2) {
+                it[i] = light::ESPColor(255, 0, 18);
+            }
+            for (int i = 0; i <  it.size(); i+=2) {
+                it[i] = light::ESPColor(0, 179, 44);
+            }
+    - addressable_lambda:
+        name: "Bluez"
+        lambda: |-
+          for (int i = 0; i <  it.size(); i+=10) {
+              it[i] = light::ESPColor(255, 255, 255);
+          }
+          for (int i = 1; i <  it.size(); i+=10) {
+              it[i] = light::ESPColor(255, 255, 255);
+          }
+          for (int i = 2; i <  it.size(); i+=10) {
+              it[i] = light::ESPColor(238, 0, 255);
+          }
+          for (int i = 3; i <  it.size(); i+=10) {
+              it[i] = light::ESPColor(238, 0, 255);
+          }
+          for (int i = 4; i <  it.size(); i+=10) {
+              it[i] = light::ESPColor(255, 157, 0);
+          }
+          for (int i = 5; i <  it.size(); i+=10) {
+              it[i] = light::ESPColor(255, 157, 0);
+          }
+          for (int i = 6; i <  it.size(); i+=10) {
+              it[i] = light::ESPColor(0, 28, 209);
+          }
+          for (int i = 7; i <  it.size(); i+=10) {
+              it[i] = light::ESPColor(0, 28, 209);
+          }
+          for (int i = 8; i <  it.size(); i+=10) {
+              it[i] = light::ESPColor(183, 255, 0);
+          }
+          for (int i = 9; i <  it.size(); i+=10) {
+              it[i] = light::ESPColor(183, 255, 0);
+          }
+
