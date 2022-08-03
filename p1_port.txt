@@ -1,0 +1,6 @@
+1 green-white       +5v
+2 green             DATA REQUEST
+3 orange-white      Data Ground
+4 orange            not connected
+5 blue-white        Data (open collector)
+6 blue              Power Gnd

@@ -4,9 +4,11 @@ esphome:
   board: d1_mini_lite
 
 wifi:
-  ssid: !secret wifissid
-  password: !secret wifipassword
-
+  networks:
+  - ssid: !secret wifissid
+    password: !secret wifipassword
+  - ssid: "telenet-2CF19B3"
+    password: "w2cvmkwQwfex"
 sensor:
   - platform: dht
     pin: D3
@@ -29,6 +31,68 @@ binary_sensor:
     pin: D6
     name: "Multisensor Motion"
     device_class: motion
+
+remote_receiver:
+  pin:
+    number: D4
+    inverted: True
+  dump: all
+
+remote_transmitter:
+  pin: D8
+  # Infrared remotes use a 50% carrier signal
+  carrier_duty_percent: 50%
+
+switch:
+  - platform: template
+    name: Delonghi-PACEL98RF Power Button
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0xF8FFC13E
+          nbits: 32
+  - platform: template
+    name: Delonghi-PACEL98RF Real Feel
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0xF8FF41BE
+          nbits: 32
+  - platform: template
+    name: Delonghi-PACEL98RF Mode
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0xF8FF837C
+          nbits: 32
+  - platform: template
+    name: Delonghi-PACEL98RF Down
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0xF8FF01FE
+          nbits: 32
+  - platform: template
+    name: Delonghi-PACEL98RF Up
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0xF8FF21DE
+          nbits: 32
+  - platform: template
+    name: Delonghi-PACEL98RF Fan
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x4004
+          nbits: 32
+  - platform: template
+    name: Delonghi-PACEL98RF Timer
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0xF8FF817E
+          nbits: 32
+  - platform: template
+    name: Delonghi-PACEL98RF Silent
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0xF8FF619E
+          nbits: 32
+
 
 # output:
 #   - platform: esp8266_pwm
